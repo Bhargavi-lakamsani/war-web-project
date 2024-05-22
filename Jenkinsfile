@@ -16,15 +16,15 @@ pipeline {
             
             steps {
 
-                sh 'docker build -t tomcat:8.0-alpinenew1 .'
+                sh 'docker build -t tomcat:8.0-alpinenew2 .'
                 
             }
         }
         stage('Push') {
             
             steps {
-               sh 'docker tag tomcat:8.0-alpinenew1 590183706325.dkr.ecr.ap-south-1.amazonaws.com/docker:pipelinenew'
-               sh 'docker push 590183706325.dkr.ecr.ap-south-1.amazonaws.com/docker:pipelinenew'
+               sh 'docker tag tomcat:8.0-alpinenew2 590183706325.dkr.ecr.ap-south-1.amazonaws.com/docker:pipelinenew1'
+               sh 'docker push 590183706325.dkr.ecr.ap-south-1.amazonaws.com/docker:pipelinenew1'
             }
         }
        
@@ -32,7 +32,7 @@ pipeline {
            
             steps {
                 
-                sh 'docker run -d -p 8050:8080 tomcat:8.0-alpinenew1'
+                sh 'docker run -d -p 8050:8080 tomcat:8.0-alpinenew2'
             }
         }
     }
