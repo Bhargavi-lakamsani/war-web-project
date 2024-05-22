@@ -32,7 +32,7 @@ pipeline {
            
             steps {
                 
-                sh 'docker run -d -p 8050:8080 tomcat:8.0-alpinenew2'
+                sh 'docker run -d -p 8030:8080 tomcat:8.0-alpinenew2'
             }
         }
     }
