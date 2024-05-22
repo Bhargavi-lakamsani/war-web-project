@@ -1,47 +1,39 @@
 pipeline {
-    agent any
-    tools {
-        maven 'Maven363'
-    }
-    options {
-        timeout(10)
-        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5')
-    }
+    
+    agent { label 'docker' }
+
     stages {
-        stage('Build') {
+        stage('Git Checkout') {
+            
             steps {
-                sh "mvn clean install"
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Bhargavi-lakamsani/hello-world-war.git']])
+                sh 'mvn clean package'
+              
+             }
+
+        }
+        stage('build stage') {
+            
+            steps {
+
+                sh 'docker build -t tomcat:8.0-alpinenew1 .'
+                
             }
         }
-        stage('upload artifact to nexus') {
+        stage('Push') {
+            
             steps {
-                nexusArtifactUploader artifacts: [
-                    [
-                        artifactId: 'wwp', 
-                        classifier: '', 
-                        file: 'target/wwp-1.0.0.war', 
-                        type: 'war'
-                    ]
-                ], 
-                    credentialsId: 'nexus3', 
-                    groupId: 'koddas.web.war', 
-                    nexusUrl: '10.0.0.91:8081', 
-                    nexusVersion: 'nexus3', 
-                    protocol: 'http', 
-                    repository: 'samplerepo', 
-                    version: '1.0.0'
+               sh 'docker tag tomcat:8.0-alpinenew1 590183706325.dkr.ecr.ap-south-1.amazonaws.com/docker:pipelinenew'
+               sh 'docker push 590183706325.dkr.ecr.ap-south-1.amazonaws.com/docker:pipelinenew'
             }
         }
-    }
-    post {
-        always{
-            deleteDir()
-        }
-        failure {
-            echo "sendmail -s mvn build failed receipients@my.com"
-        }
-        success {
-            echo "The job is successful"
+       
+        stage('Deploy') {
+           
+            steps {
+                
+                sh 'docker run -d -p 8080:8080 tomcat:8.0-alpinenew1'
+            }
         }
     }
 }
