@@ -5,7 +5,7 @@ pipeline {
         AWS_REGISTRY_CREDENTIALS = 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 590183706325.dkr.ecr.ap-south-1.amazonaws.com'
         ECR_REGISTRY_URL = '590183706325.dkr.ecr.ap-south-1.amazonaws.com/docker'
         DOCKER_IMAGE_NAME = 'tomcat'
-        DOCKER_IMAGE_TAG = 'ECR"${BUILD_NUMBER}"'
+        DOCKER_IMAGE_TAG = 'ECR\"${BUILD_NUMBER}"'
     }
     
     stages {
