@@ -4,8 +4,8 @@ RUN apt-get update && apt-get install -y git && apt-get install -y openjdk-11-jd
 
 WORKDIR /git-clone
 
-RUN git clone https://github.com/Bhargavi-lakamsani/hello-world-war.git
+RUN git clone https://github.com/Bhargavi-lakamsani/war-web-project.git
 
-WORKDIR /git-clone/hello-world-war
+WORKDIR /git-clone/war-web-project
 
 RUN mvn clean package
