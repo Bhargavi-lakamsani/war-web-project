@@ -33,7 +33,7 @@ pipeline {
                 sh "docker tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG $ECR_REGISTRY_URL:$DOCKER_IMAGE_TAG"
                 
                 
-                sh "docker push $ECR_REGISTRY_URL/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG"
+                sh "docker push $ECR_REGISTRY_URL:$DOCKER_IMAGE_TAG"
             }
         }
         
