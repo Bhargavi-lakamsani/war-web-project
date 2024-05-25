@@ -1,5 +1,11 @@
-FROM tomcat:8.0-alpine
-ADD ./target/hello-world-war-1.0.0.war /usr/local/tomcat/webapps/
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+FROM ubuntu:latest
 
+RUN apt-get update && apt-get install -y git && apt-get install -y openjdk-11-jdk && apt-get install -y maven
+
+WORKDIR /git-clone
+
+RUN git clone https://github.com/Bhargavi-lakamsani/hello-world-war.git
+
+WORKDIR /git-clone/hello-world-war
+
+RUN mvn clean package
