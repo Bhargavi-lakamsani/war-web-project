@@ -23,7 +23,7 @@ pipeline {
         
         stage('Push') {
             steps {
-                  sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $ECR_REGISTRY_URL"
+                  sh "$AWS_REGISTRY_CREDENTIALS"
                
                  sh "docker tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG $ECR_REGISTRY_URL:$DOCKER_IMAGE_TAG"
                 sh "docker push $ECR_REGISTRY_URL:$DOCKER_IMAGE_TAG"
